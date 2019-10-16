@@ -1,5 +1,6 @@
 # import flask dependencies
 from flask import Flask, request, make_response, jsonify
+import requests
 
 # initialize the flask app
 app = Flask(__name__)
@@ -19,7 +20,11 @@ def results():
     unidade = req.get('queryResult').get('parameters').get('unidade')
 
     if action == 'enderecos':
-	    return {'fulfillmentText': 'Busca pelo endereço. '  + str(unidade)}
+        # res = requests.post('http://localhost:5000/api/add_message/1234', json={"mytext":"lalala"})
+        res = requests.get('https://apidesejada')
+        if res.ok:
+            print(res.json())
+            return {'fulfillmentText': 'Busca pelo endereço. '  + str(res.json())}
 
     # return a fulfillment response
     return {'fulfillmentText': 'Resposta Genérica da API.' + str(action)}
