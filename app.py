@@ -7,7 +7,7 @@ app = Flask(__name__)
 # default route
 @app.route('/')
 def index():
-    return 'Hello World!'
+    return 'Api Webhook ChatBot Ouvidoria!'
 
 # function for responses
 def results():
@@ -16,9 +16,13 @@ def results():
 
     # fetch action from json
     action = req.get('queryResult').get('action')
+    unidade = req.get('queryResult').get('parameters').get('unidade')
+
+    if action == 'enderecos':
+	    return {'fulfillmentText': 'Busca pelo endereço. '  + str(unidade)}
 
     # return a fulfillment response
-    return {'fulfillmentText': 'This is a response from webhook.'}
+    return {'fulfillmentText': 'Resposta Genérica da API.' + str(action)}
 
 # create a route for webhook
 @app.route('/webhook', methods=['GET', 'POST'])
